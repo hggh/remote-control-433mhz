@@ -1,7 +1,7 @@
 $fn = 80;
 
 module button() {
-    cylinder(r=3.75, h=2, center=true);
+    cylinder(r=6.2, h=4);
 }
 
 
@@ -11,26 +11,26 @@ module top() {
         
         // row 1
         translate([12, 10, -1]) {
-            cylinder(r=6, h=4);
+            button();
         }
         translate([12, 30, -1]) {
-            cylinder(r=6, h=4);
+            button();
         }
         
         // row 2
         translate([28, 10, -1]) {
-            cylinder(r=6, h=4);
+            button();
         }
         translate([28, 30, -1]) {
-            cylinder(r=6, h=4);
+            button();
         }
         
         // row 3
         translate([44, 10, -1]) {
-            cylinder(r=6, h=4);
+            button();
         }
         translate([44, 30, -1]) {
-            cylinder(r=6, h=4);
+            button();
         }
     }
 }
