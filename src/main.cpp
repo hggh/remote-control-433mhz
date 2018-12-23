@@ -97,6 +97,7 @@ void loop() {
 		buttons[i].update();
 		if (buttons[i].rose()) {
 			button_pressed = i;
+			break;
 		}
 	}
 	if (button_pressed != 10) {
