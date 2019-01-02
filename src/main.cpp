@@ -3,16 +3,16 @@
 #include <RFM69.h>
 #include <JeeLib.h>
 #include <Bounce2.h>
+#include <Voltage.h>
 
 #include "config.h"
 
 #define BUTTON_COUNT 6
 
 RFM69 radio;
-byte ADCSRA_status;
+Voltage voltage;
 const uint8_t BUTTON_PINS[BUTTON_COUNT] = {A0, A1, A2, A3, A4, A5};
 Bounce * buttons = new Bounce[BUTTON_COUNT];
-const float InternalReferenceVoltage = 1.1;
 volatile short do_sleep = 1;
 volatile short button_pressed = 10;
 volatile short runs = 0;
@@ -20,24 +20,6 @@ volatile short runs = 0;
 ISR(WDT_vect) {
 	Sleepy::watchdogEvent();
 }
-
-float read_battery_volatage() {
-	power_adc_enable();
-	ADCSRA = ADCSRA_status;
-	ADCSRA |= bit (ADPS0) |  bit (ADPS1) | bit (ADPS2);  // Prescaler of 128
-	ADMUX = bit (REFS0) | bit (MUX3) | bit (MUX2) | bit (MUX1);
-
-	delay(10);
-	bitSet (ADCSRA, ADSC);
-	while (bit_is_set(ADCSRA, ADSC)) {
-	}
-	float battery_voltage = InternalReferenceVoltage / float (ADC + 0.5) * 1024.0;
-
-	ADCSRA &= ~(1 << 7);
-	power_adc_disable();
-	return battery_voltage;
-}
-
 
 void setup_interrupts() {
 	noInterrupts();
@@ -74,9 +56,7 @@ ISR(PCINT1_vect) {
 
 
 void setup() {
-	ADCSRA_status = ADCSRA;
-	ADCSRA &= ~(1 << 7);
-	power_adc_disable();
+	voltage.init();
 	power_twi_disable();
 	power_usart0_disable();
 
@@ -102,7 +82,7 @@ void loop() {
 	}
 	if (button_pressed != 10) {
 		char buffer[40] = "";
-		double volt = (double)read_battery_volatage();
+		double volt = (double)voltage.read();
 		char volt_str[10];
 		dtostrf(volt, 3,2, volt_str);
 
