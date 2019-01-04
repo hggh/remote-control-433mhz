@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name remote-control-rescue)(type Legacy)(uri ${KIPRJMOD}/remote-control-rescue.lib)(options "")(descr ""))
+  (lib (name rfm69)(type Legacy)(uri /home/jonas/entwicklung/kicad-libraries/rfm69.lib)(options "")(descr ""))
+)
