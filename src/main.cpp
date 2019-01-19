@@ -7,11 +7,9 @@
 
 #include "config.h"
 
-#define BUTTON_COUNT 6
 
 RFM69 radio;
 Voltage voltage;
-const uint8_t BUTTON_PINS[BUTTON_COUNT] = {A0, A1, A2, A3, A4, A5};
 Bounce * buttons = new Bounce[BUTTON_COUNT];
 volatile short do_sleep = 1;
 volatile short button_pressed = 10;
