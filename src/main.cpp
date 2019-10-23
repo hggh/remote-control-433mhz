@@ -85,7 +85,7 @@ void loop() {
 		dtostrf(volt, 3,2, volt_str);
 
 		sprintf(buffer, "%d;RC;%d:%lu;%s", NODEID, button_pressed, millis(), volt_str);
-		radio.sendWithRetry(GATEWAYID, buffer, strlen(buffer), 3, 50);
+		radio.sendWithRetry(GATEWAYID, buffer, strlen(buffer), 3, 80);
 		radio.sleep();
 
 		do_sleep = 1;
